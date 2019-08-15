@@ -1,4 +1,4 @@
-import { HttpModule, HttpService, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TokenController } from './controllers/token.controller';
@@ -10,8 +10,8 @@ import { TokenModule } from './modules/token.module';
 import { TokenService } from './services/token.service';
 
 @Module({
-  imports: [HttpModule, LoggerModule, UsersModule, TokenModule],
+  imports: [LoggerModule, UsersModule, TokenModule],
   controllers: [AppController, UsersController, TokenController],
-  providers: [AppService, HttpService, UsersService, TokenService],
+  providers: [AppService],
 })
 export class AppModule { }
