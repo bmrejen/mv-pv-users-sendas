@@ -4,8 +4,6 @@ services:
     image: "nestjs/cli"
     volumes:
       - "../.:/home/node"
-       # use host's shared memory when running chrome
-      - /dev/shm:/dev/shm
     env_file:
       - ~/.docker/.env
     environment:
