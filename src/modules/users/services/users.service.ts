@@ -1,6 +1,6 @@
-import { IUserDataFromApi } from '../interfaces/user-data-from-api.interface';
+import { IUserDataFromApi } from '..//interfaces/user-data-from-api.interface';
 import { IUserConfig } from '../interfaces/user-config.interface';
-import { Injectable, HttpService } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { User } from '../models/user.model';
 
 @Injectable()
@@ -18,11 +18,12 @@ export class UsersService {
     }
 
     postAllUsers() {
-        this.users.forEach((user) => this.postAllUsers());
+        this.users.forEach((user) => this.postUser(user));
     }
 
     postUser(user: User) {
         //
+
     }
 }
 

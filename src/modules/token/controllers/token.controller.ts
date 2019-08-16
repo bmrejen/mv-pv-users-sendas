@@ -9,9 +9,9 @@ export class TokenController {
     }
 
     @Get()
-    getToken() {
+    getToken(@Body() data?) {
         // this.logger.log('bonjour monsieur logger');
-        return 'pouet';
+        return "pouet";
     }
 
     @Post()

@@ -1,5 +1,5 @@
-import { Injectable, Body, HttpService } from '@nestjs/common';
-import { TokenDto } from 'src/dto/token.dto';
+import { Injectable, Body, HttpService, Logger } from '@nestjs/common';
+import { TokenDto } from 'src/modules/token/dto/token.dto';
 
 import * as jwt from 'jsrsasign';
 
@@ -39,15 +39,20 @@ export class TokenService {
         const url = 'https://www.googleapis.com/oauth2/v4/token/';
         const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
         const body = `grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=${sJWT}`;
+        Logger.log(body);
 
         return this.http.post(url, body, { headers })
             .toPromise()
             .then((res) => {
                 this.accessToken = res['access_token'];
+                Logger.log("res");
+                Logger.log(res);
 
                 return this.accessToken;
             })
             .catch((err) => {
+                Logger.error("err");
+                Logger.error(err);
 
                 return new Promise((resolve) => setTimeout(resolve, 4000))
                     .then(() => Promise.resolve(this.createToken({ primaryEmail })));
