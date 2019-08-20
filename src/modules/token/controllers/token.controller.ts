@@ -8,12 +8,6 @@ export class TokenController {
         //
     }
 
-    @Get()
-    getToken(@Body() data?) {
-        // this.logger.log('bonjour monsieur logger');
-        return "pouet";
-    }
-
     @Post()
     async createToken(@Body() tokenDto: TokenDto): Promise<any> {
         return this.tokenService.createToken(tokenDto);

@@ -5,7 +5,7 @@ import * as jwt from 'jsrsasign';
 
 @Injectable()
 export class TokenService {
-    public accessToken: string;
+    public accessToken: any;
     constructor(private readonly http: HttpService) {
         //
     }
@@ -39,21 +39,14 @@ export class TokenService {
         const url = 'https://www.googleapis.com/oauth2/v4/token/';
         const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
         const body = `grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=${sJWT}`;
-        Logger.log(body);
 
         return this.http.post(url, body, { headers })
             .toPromise()
             .then((res) => {
                 this.accessToken = res['access_token'];
-                Logger.log("res");
-                Logger.log(res);
-
                 return this.accessToken;
             })
             .catch((err) => {
-                Logger.error("err");
-                Logger.error(err);
-
                 return new Promise((resolve) => setTimeout(resolve, 4000))
                     .then(() => Promise.resolve(this.createToken({ primaryEmail })));
             });

@@ -3,7 +3,6 @@ import { Logger } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 
-// import { MyLogger } from './services/logger.service';
 import { AppModule } from './app.module';
 
 async function bootstrap() {

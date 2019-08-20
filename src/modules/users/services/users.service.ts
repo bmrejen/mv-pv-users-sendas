@@ -1,33 +1,27 @@
-import { IUserDataFromApi } from '..//interfaces/user-data-from-api.interface';
+import { ICreateuserDto } from '../dto/create-user-dto-interface';
 import { IUserConfig } from '../interfaces/user-config.interface';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { User } from '../models/user.model';
+
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Injectable()
 export class UsersService {
-    private readonly users: User[] = [];
 
-    create(user: IUserDataFromApi): User[] {
+    create(user: ICreateuserDto) {
         const usr = new User(mapFromApi(user));
-        this.users.push(usr);
-        return this.users;
-    }
+        const jsonString = JSON.stringify(usr);
 
-    findAll(): User[] {
-        return this.users;
-    }
+        const fileName = path.join(__dirname, '../../../../jobs', `${Date.now().toString()}.json`);
 
-    postAllUsers() {
-        this.users.forEach((user) => this.postUser(user));
-    }
+        fs.writeFile(fileName, jsonString, (err) => Logger.log(err));
 
-    postUser(user: User) {
-        //
-
+        return usr;
     }
 }
 
-function mapFromApi(data: IUserDataFromApi): IUserConfig {
+function mapFromApi(data: ICreateuserDto): IUserConfig {
     return {
         body: data.body,
         method: data.method,
