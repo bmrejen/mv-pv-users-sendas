@@ -1,6 +1,8 @@
-export interface ICreateuserDto {
-    body: string;
-    method: string;
-    primaryEmail: string;
-    url: string;
+import { IsNotEmpty } from 'class-validator';
+
+export class CreateUserDto {
+    @IsNotEmpty() body: string;
+    @IsNotEmpty() method: string;
+    @IsNotEmpty() primaryEmail: string;
+    @IsNotEmpty() url: string;
 }

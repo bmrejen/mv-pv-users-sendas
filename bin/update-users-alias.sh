@@ -1,15 +1,26 @@
 #!/bin/sh
+clear
+echo "Updating the aliases of recently created Google users"
 
-# echo "Updating the aliases of recently created Google users"
-# find jobs -type f -iname \*.json -exec echo {} \; > jobs/todo.txt
-file=`find jobs/ -maxdepth 1 -type f -name \*.json -printf '%f\n' | sort | head -n 1`
+numberOfFiles=`ls -1 jobs/*.json | wc -l`
+echo "`date +%Y%m%d-%H:%M:%S` - There are ${numberOfFiles} files to process"
 
-if [ ! -z "$file" ]; then
+COUNTER=0
+
+while [  $COUNTER -lt $numberOfFiles ]; do
+
+    # Find a file
+    file=`find jobs/ -maxdepth 1 -type f -name \*.json -printf '%f\n' | sort | head -n 1`
     echo "`date +%Y-%m-%d_%H:%M:%S` - Processing file ${file}";
+    
+    # Curl it
     curl --data-binary "@jobs/${file}" \
     -H "Content-Type: application/json" \
-    -X POST http://localhost:3000/update-users
-else
-    echo "`date +%Y%m%d-%H:%M:%S` - No file to process"
-fi
+    -H "Filename: ${file}" \
+    -X PATCH http://localhost:3000/users
+    
+    echo ----------
+    echo Done !
+    let COUNTER=COUNTER+1 
+done
 

@@ -1,4 +1,4 @@
-import { ICreateuserDto } from '../dto/create-user-dto-interface';
+import { CreateUserDto } from '../dto/create-user-dto-interface';
 import { IUserConfig } from '../interfaces/user-config.interface';
 import { Injectable, Logger } from '@nestjs/common';
 import { User } from '../models/user.model';
@@ -9,7 +9,7 @@ import * as path from 'path';
 @Injectable()
 export class UsersService {
 
-    create(user: ICreateuserDto) {
+    create(user: CreateUserDto) {
         const usr = new User(mapFromApi(user));
         const jsonString = JSON.stringify(usr);
 
@@ -21,7 +21,7 @@ export class UsersService {
     }
 }
 
-function mapFromApi(data: ICreateuserDto): IUserConfig {
+function mapFromApi(data: CreateUserDto): IUserConfig {
     return {
         body: data.body,
         method: data.method,

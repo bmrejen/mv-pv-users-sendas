@@ -1,7 +1,11 @@
 import { Injectable, Body, HttpService, Logger } from '@nestjs/common';
 import { TokenDto } from 'src/modules/token/dto/token.dto';
 
+import * as fs from 'fs';
 import * as jwt from 'jsrsasign';
+import * as path from 'path';
+
+import { ITokenResponse } from 'src/modules/users/interfaces/token-response.interface';
 
 @Injectable()
 export class TokenService {
@@ -10,7 +14,8 @@ export class TokenService {
         //
     }
 
-    async createToken(@Body() tokenDto: TokenDto): Promise<any> {
+    async createToken(@Body() tokenDto: TokenDto): Promise<ITokenResponse> {
+        console.log('creating token');
         const primaryEmail = tokenDto.primaryEmail;
         this.accessToken = null;
 
@@ -42,13 +47,15 @@ export class TokenService {
 
         return this.http.post(url, body, { headers })
             .toPromise()
-            .then((res) => {
-                this.accessToken = res['access_token'];
-                return this.accessToken;
+            .then((res: { data: ITokenResponse }) => {
+                console.log("token created!");
+                this.accessToken = res.data.access_token;
+                return res.data;
             })
             .catch((err) => {
-                return new Promise((resolve) => setTimeout(resolve, 4000))
-                    .then(() => Promise.resolve(this.createToken({ primaryEmail })));
+                const fileName = path.join(__dirname, '../../../../logs/create-token.log');
+                fs.appendFile(fileName, JSON.stringify(err), (error) => Logger.log(error));
+                return err;
             });
     }
 }

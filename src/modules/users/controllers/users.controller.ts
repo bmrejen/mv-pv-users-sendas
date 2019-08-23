@@ -1,9 +1,13 @@
-import { IUpdateUserDto } from '../dto/update-user-dto-interface';
-import { ICreateuserDto } from '../dto/create-user-dto-interface';
+import { UpdateUserDto } from '../dto/update-user-dto-interface';
+import { CreateUserDto } from '../dto/create-user-dto-interface';
 import { UsersService } from '../services/users.service';
 import { UsersHttpExceptionFilter } from '../exception-filters/users-http-exception.filter';
-import { Body, Controller, Post, UseFilters, HttpStatus, HttpException, Patch, Logger } from '@nestjs/common';
+import { Body, Controller, Post, UseFilters, HttpStatus, HttpException, Patch, Req } from '@nestjs/common';
 import { UpdateUsersService } from '../services/update-users.service';
+import { Request } from 'express';
+
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Controller('users')
 export class UsersController {
@@ -16,32 +20,31 @@ export class UsersController {
 
     @Post()
     @UseFilters(new UsersHttpExceptionFilter())
-    async create(@Body() createUserDto: ICreateuserDto) {
-        if (!isDtoValid(createUserDto)) {
-            throw new HttpException('No property can be empty', HttpStatus.LENGTH_REQUIRED);
-        } else {
-            return this.usersService.create(createUserDto);
-        }
+    async create(@Body() createUserDto: CreateUserDto) {
+        return this.usersService.create(createUserDto);
     }
 
     @Patch()
     @UseFilters(new UsersHttpExceptionFilter())
-    async updateUser(@Body() updateUsersDto: IUpdateUserDto) {
-
-        if (!isDtoValid(updateUsersDto)) {
-            throw new HttpException('No property can be empty', HttpStatus.LENGTH_REQUIRED);
-        } else {
-            return this.updateUsersService.update(updateUsersDto)
-                .then((res) => res);
-        }
+    async updateUser(
+        @Req() request: Request,
+        @Body() updateUsersDto: UpdateUserDto,
+    ) {
+        return this.updateUsersService.update(updateUsersDto)
+            .then(res => handleJsonFile(res, request.headers.filename))
+            .catch((err) => {
+                const fileName = path.join(__dirname, '../../../../logs/update-user.log');
+                fs.appendFile(fileName, JSON.stringify(err.toJSON()) + '\n', (error) => console.log(err));
+                throw new HttpException(err, err.code);
+            });
     }
 }
 
-function isDtoValid(dto): boolean {
-    return !(Object.keys(dto).length === 0 || isAnyPropertyEmpty(dto));
-}
+function handleJsonFile(res, fileName: any) {
+    fs.rename(`jobs/${fileName}`, `jobs/done/${fileName}`, (err) => {
+        if (err) throw err;
+        console.log('File moved to done folder!');
+    });
 
-function isAnyPropertyEmpty(obj) {
-    return Object.values(obj)
-        .some((value) => value == null || value === '');
+    return res.data;
 }

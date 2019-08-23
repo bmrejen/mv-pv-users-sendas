@@ -1,5 +1,6 @@
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, Logger } from '@nestjs/common';
 import { Request, Response } from 'express';
+import * as fs from 'fs';
 
 @Catch(HttpException)
 export class UsersHttpExceptionFilter implements ExceptionFilter {
@@ -17,7 +18,7 @@ export class UsersHttpExceptionFilter implements ExceptionFilter {
             name: exception.name,
         };
 
-        Logger.log('ya un probleme', JSON.stringify(errorResponse));
+        // Logger.log('ERROR --', JSON.stringify(errorResponse));
 
         response
             .status(status)
