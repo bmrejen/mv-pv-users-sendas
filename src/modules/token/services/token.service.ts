@@ -15,7 +15,6 @@ export class TokenService {
     }
 
     async createToken(@Body() tokenDto: TokenDto): Promise<ITokenResponse> {
-        console.log('creating token');
         const primaryEmail = tokenDto.primaryEmail;
         this.accessToken = null;
 
@@ -48,7 +47,6 @@ export class TokenService {
         return this.http.post(url, body, { headers })
             .toPromise()
             .then((res: { data: ITokenResponse }) => {
-                console.log("token created!");
                 this.accessToken = res.data.access_token;
                 return res.data;
             })

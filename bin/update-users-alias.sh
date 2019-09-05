@@ -10,11 +10,11 @@ COUNTER=0
 while [  $COUNTER -lt $numberOfFiles ]; do
 
     # Find a file
-    file=`find jobs/ -maxdepth 1 -type f -name \*.json -printf '%f\n' | sort | head -n 1`
+    file=`find jobs/ -maxdepth 1 -type f -name \*.json -print | sort | head -n 1`
     echo "`date +%Y-%m-%d_%H:%M:%S` - Processing file ${file}";
     
     # Curl it
-    curl --data-binary "@jobs/${file}" \
+    curl --data-binary "@${file}" \
     -H "Content-Type: application/json" \
     -H "Filename: ${file}" \
     -X PATCH http://localhost:3000/users

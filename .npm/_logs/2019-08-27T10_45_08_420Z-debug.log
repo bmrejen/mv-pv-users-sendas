@@ -1,0 +1,53 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'i', '-g', 'yarn' ]
+2 info using npm@6.4.1
+3 info using node@v8.16.0
+4 verbose npm-session 50d1580f99e9d48f
+5 silly install loadCurrentTree
+6 silly install readGlobalPackageData
+7 http fetch GET 200 https://registry.npmjs.org/yarn 1870ms
+8 silly pacote tag manifest for yarn@latest fetched in 1888ms
+9 timing stage:loadCurrentTree Completed in 2050ms
+10 silly install loadIdealTree
+11 silly install cloneCurrentTreeToIdealTree
+12 timing stage:loadIdealTree:cloneCurrentTree Completed in 1ms
+13 silly install loadShrinkwrap
+14 timing stage:loadIdealTree:loadShrinkwrap Completed in 1ms
+15 silly install loadAllDepsIntoIdealTree
+16 silly resolveWithNewModule yarn@1.17.3 checking installable status
+17 silly removeObsoleteDep removing yarn@1.17.3 from the tree as its been replaced by a newer version or is no longer required
+18 timing stage:loadIdealTree:loadAllDepsIntoIdealTree Completed in 3ms
+19 timing stage:loadIdealTree Completed in 6ms
+20 silly currentTree lib
+20 silly currentTree `-- yarn@1.17.3
+21 silly idealTree lib
+21 silly idealTree `-- yarn@1.17.3
+22 silly install generateActionsToTake
+23 warn checkPermissions Missing write access to /usr/local/lib/node_modules/yarn
+24 warn checkPermissions Missing write access to /usr/local/lib/node_modules
+25 timing stage:rollbackFailedOptional Completed in 0ms
+26 timing stage:runTopLevelLifecycles Completed in 2060ms
+27 verbose stack Error: EACCES: permission denied, access '/usr/local/lib/node_modules/yarn'
+28 verbose cwd /home/node
+29 verbose Linux 4.15.0-58-generic
+30 verbose argv "/usr/local/bin/node" "/usr/local/bin/npm" "i" "-g" "yarn"
+31 verbose node v8.16.0
+32 verbose npm  v6.4.1
+33 error path /usr/local/lib/node_modules/yarn
+34 error code EACCES
+35 error errno -13
+36 error syscall access
+37 error Error: EACCES: permission denied, access '/usr/local/lib/node_modules/yarn'
+37 error  { Error: EACCES: permission denied, access '/usr/local/lib/node_modules/yarn'
+37 error   stack: 'Error: EACCES: permission denied, access \'/usr/local/lib/node_modules/yarn\'',
+37 error   errno: -13,
+37 error   code: 'EACCES',
+37 error   syscall: 'access',
+37 error   path: '/usr/local/lib/node_modules/yarn' }
+38 error The operation was rejected by your operating system.
+38 error It is likely you do not have the permissions to access this file as the current user
+38 error
+38 error If you believe this might be a permissions issue, please double-check the
+38 error permissions of the file and its containing directories, or try running
+38 error the command again as root/Administrator (though this is not recommended).
+39 verbose exit [ -13, true ]

@@ -1,8 +1,10 @@
 version: "3"
 services:
   webserver:
+    build:
+      context: webserver/.
     image: "nestjs/cli"
-    volumes:
+    volumes: 
       - "../.:/home/node"
     env_file:
       - ~/.docker/.env
