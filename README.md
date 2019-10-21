@@ -2,12 +2,12 @@
 
 - The Users-Sendas project updates the Gmail signature and aliases of users created with the Users project
 
-###Functioning
+### Functioning
 
 Users created by the users project cannot have their Gmail signature and alias updated instantly. Google requires a latency time ranging from a few seconds to several hours.
 The users-sendas project solves this problem through an API that stores requests as JSON files so they can be executed later.
 
-###How to 
+### How to 
 
 Terminal 1 - run the User project and create or update the user you want 
 
