@@ -16,6 +16,7 @@ export class UsersService {
         const fileName = path.join(__dirname, '../../../../jobs', `${Date.now().toString()}.json`);
 
         fs.writeFile(fileName, jsonString, (err) => Logger.log(err));
+        Logger.log(jsonString);
 
         return usr;
     }

@@ -21,6 +21,7 @@ export class UsersController {
     @Post()
     @UseFilters(new UsersHttpExceptionFilter())
     async create(@Body() createUserDto: CreateUserDto) {
+        Logger.log(createUserDto);
         return this.usersService.create(createUserDto);
     }
 

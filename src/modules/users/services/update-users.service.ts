@@ -12,7 +12,10 @@ export class UpdateUsersService {
     update(updateUserDto: UpdateUserDto) {
         console.log("UPDATE USER SERVICE", updateUserDto);
         return this.tokenService.createToken(mapUserDtoToTokenDto(updateUserDto))
-            .then((res) => this.updateUserAlias(updateUserDto, res))
+            .then((res: ITokenResponse) => {
+                this.updateUserAlias(updateUserDto, res);
+                this.activatePopSettings(res);
+            })
             .catch((err) => {
                 throw err;
             });
@@ -43,6 +46,23 @@ export class UpdateUsersService {
                 .toPromise()
                 .catch((err) => Logger.error('ERREUR DU HTTP POST', err));
         }
+    }
+
+    private activatePopSettings(tokenResponse: ITokenResponse) {
+        const url = `https://www.googleapis.com/gmail/v1/users/me/settings/pop`;
+        const headers = {
+            'Authorization': `Bearer ${tokenResponse.access_token}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        };
+
+        const body = {
+            accessWindow: 'allMail',
+            disposition: 'markRead',
+        };
+
+        return this.http.put(url, body, { headers })
+            .toPromise();
     }
 }
 
