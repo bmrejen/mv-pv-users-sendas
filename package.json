@@ -26,7 +26,7 @@
     "class-transformer": "^0.2.3",
     "class-validator": "^0.10.0",
     "hbs": "^4.0.4",
-    "jsrsasign": "^8.0.12",
+    "jsrsasign": "^10.5.25",
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
     "rxjs": "^6.3.3"
